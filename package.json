@@ -1,0 +1,52 @@
+{
+  "name": "@danielpza/ts-expect-error",
+  "description": "Silence typescript errors by adding a @ts-expect-error directive.",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": "Daniel Perez Alvarez",
+  "type": "module",
+  "exports": {
+    "types": "dist/index.d.ts",
+    "import": "dist/index.mjs",
+    "default": "dist/index.js"
+  },
+  "bin": "./dist/cli.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "pkgroll",
+    "prepack": "npm run build",
+    "release": "changelogen --release --push",
+    "format": "prettier --write .",
+    "lint": "npm run lint:prettier && npm run lint:types",
+    "lint:prettier": "prettier --check .",
+    "lint:types": "tsc --noEmit",
+    "tdd": "node --test --import tsx --watch '**/*.test.ts'",
+    "test": "node --test --import tsx '**/*.test.ts'"
+  },
+  "keywords": [
+    "ts-ignore",
+    "ts-expect-error",
+    "ignore",
+    "typescript",
+    "error",
+    "migrate"
+  ],
+  "dependencies": {
+    "date-fns": "2.30.0",
+    "globby": "14.0.2",
+    "ora": "8.0.1",
+    "ts-morph": "23.0.0"
+  },
+  "devDependencies": {
+    "@tsconfig/node-lts": "^20.1.3",
+    "@types/node": "^22.1.0",
+    "changelogen": "^0.5.5",
+    "pkgroll": "^2.4.2",
+    "prettier": "^3.3.3",
+    "tsx": "^4.16.5",
+    "typescript": "^5.5.4"
+  },
+  "packageManager": "pnpm@9.7.1+sha512.faf344af2d6ca65c4c5c8c2224ea77a81a5e8859cbc4e06b1511ddce2f0151512431dd19e6aff31f2c6a8f5f2aced9bd2273e1fed7dd4de1868984059d2c4247"
+}

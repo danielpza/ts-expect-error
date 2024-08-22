@@ -1,0 +1,27 @@
+# https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages#publishing-packages-to-the-npm-registry
+name: Node.js Package
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "latest"
+          registry-url: "https://npm.pkg.github.com"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+      # https://github.com/pnpm/pnpm/issues/5894
+      - run: pnpm publish --access private --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
