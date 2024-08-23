@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.0.5
+
+[compare changes](https://github.com/danielpza/ts-ignore-error/compare/v0.0.4...v0.0.5)
+
+### 🚀 Enhancements
+
+- More helpful error message ([e5c27a1](https://github.com/danielpza/ts-ignore-error/commit/e5c27a1))
+- Add --version flag ([7b2e37b](https://github.com/danielpza/ts-ignore-error/commit/7b2e37b))
+
+### 🩹 Fixes
+
+- Name collission ([4447407](https://github.com/danielpza/ts-ignore-error/commit/4447407))
+
+### ❤️ Contributors
+
+- Daniel Perez Alvarez <danielpza@protonmail.com>
+
 ## v0.0.4
 
 [compare changes](https://github.com/danielpza/ts-ignore-error/compare/v0.0.3...v0.0.4)
