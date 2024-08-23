@@ -2,6 +2,7 @@
   "extends": "@tsconfig/node-lts",
   "compilerOptions": {
     "lib": ["esnext"],
+    "resolveJsonModule": true,
     "declaration": true,
     "outDir": "./lib",
     "rootDir": "./src"
