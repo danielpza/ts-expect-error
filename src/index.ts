@@ -1,8 +1,11 @@
 import { readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
+
 import { formatDistanceStrict } from "date-fns";
 import { globby } from "globby";
 import { oraPromise } from "ora";
 import { Project } from "ts-morph";
+
 import { ignoreErrors } from "./ignoreErrors.js";
 
 async function removeIgnoreErrors(files: string[]) {
@@ -31,7 +34,8 @@ async function orap<T>(
 export async function run({
   entry = ".",
   removeCurrentChecks = false,
-}: { entry?: string; removeCurrentChecks?: boolean } = {}) {
+  cwd = process.cwd(),
+}: { entry?: string; removeCurrentChecks?: boolean; cwd?: string } = {}) {
   // TODO only glob files if entry is a directory, otherwise use files from the tsconfig.json
   const files = await globby(entry, {
     expandDirectories: {
@@ -59,11 +63,11 @@ export async function run({
 
   const diagnostics = await orap(
     async () =>
-      project
-        .getPreEmitDiagnostics()
-        .filter((diagnostic) =>
-          files.includes(diagnostic.getSourceFile()?.getBaseName() ?? ""),
-        ),
+      project.getPreEmitDiagnostics().filter((diagnostic) => {
+        const filePath = diagnostic.getSourceFile()?.getFilePath();
+        if (!filePath) throw new Error("Expected file path");
+        return files.includes(path.relative(cwd, filePath));
+      }),
     {
       text: "Getting Diagnostics",
     },
