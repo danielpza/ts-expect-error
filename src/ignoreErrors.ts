@@ -13,10 +13,26 @@ function getIgnoreComment(diagnostic: Diagnostic<ts.Diagnostic>) {
   return `// @ts-expect-error TS(${tsErrorCode}) ${prefix}: ${errorMessage}\n`;
 }
 
+// Object.groupBy "polyfill"
+function groupBy<T>(
+  array: T[],
+  getKey: (item: T) => string,
+): Record<string, T[]> {
+  let result: Record<string, T[]> = {};
+  for (const item of array) {
+    const key = getKey(item);
+    result[key] ??= [];
+    result[key].push(item);
+  }
+  return result;
+}
+
 export function ignoreErrors(diagnostics: Diagnostic<ts.Diagnostic>[]) {
-  const groupByFile = Object.groupBy(diagnostics, (diagnostic) =>
-    diagnostic.getSourceFile().getBaseName(),
-  );
+  const groupByFile = groupBy(diagnostics, (diagnostic) => {
+    const name = diagnostic.getSourceFile()?.getBaseName();
+    if (name === undefined) throw new Error("Expected file name");
+    return name;
+  });
   for (const [_, fileDiagnostics] of Object.entries(groupByFile)) {
     let carry = 0;
     let previousLineNumber: number | undefined;
