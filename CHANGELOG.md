@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.0.7
+
+[compare changes](https://github.com/danielpza/ts-ignore-error/compare/v0.0.6...v0.0.7)
+
+### 🚀 Enhancements
+
+- Allow sending several entries ([cd7ffcd](https://github.com/danielpza/ts-ignore-error/commit/cd7ffcd))
+
+### 📖 Documentation
+
+- Add usage section ([947f9bd](https://github.com/danielpza/ts-ignore-error/commit/947f9bd))
+
+### ❤️ Contributors
+
+- Daniel Perez Alvarez <danielpza@protonmail.com>
+
 ## v0.0.6
 
 [compare changes](https://github.com/danielpza/ts-ignore-error/compare/v0.0.5...v0.0.6)
