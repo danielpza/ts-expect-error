@@ -14,30 +14,38 @@ function getIgnoreComment(diagnostic: Diagnostic<ts.Diagnostic>) {
 }
 
 export function ignoreErrors(diagnostics: Diagnostic<ts.Diagnostic>[]) {
-  let carry = 0;
-  let previousLineNumber: number | undefined;
-  for (const diagnostic of diagnostics) {
-    const file = diagnostic.getSourceFile();
-    let start = diagnostic.getStart();
-    if (!file) throw new Error("Expected diagnostic to have a source file");
-    if (!start) throw new Error("Expected diagnostic to have a start position");
+  const groupByFile = Object.groupBy(diagnostics, (diagnostic) =>
+    diagnostic.getSourceFile().getBaseName(),
+  );
+  for (const [_, fileDiagnostics] of Object.entries(groupByFile)) {
+    let carry = 0;
+    let previousLineNumber: number | undefined;
+    for (const diagnostic of fileDiagnostics) {
+      const file = diagnostic.getSourceFile();
+      let start = diagnostic.getStart();
+      if (file === undefined)
+        throw new Error("Expected diagnostic to have a source file");
+      if (start === undefined)
+        throw new Error("Expected diagnostic to have a start position");
 
-    let node = file.getChildAtPos(start);
-    if (!node) throw new Error("Expected diagnostic to have a node");
+      let node = file.getChildAtPos(start);
+      if (node === undefined)
+        throw new Error("Expected diagnostic to have a node");
 
-    const ignoreComment = getIgnoreComment(diagnostic);
+      const ignoreComment = getIgnoreComment(diagnostic);
 
-    start += carry;
+      start += carry;
 
-    const line = file.getLineAndColumnAtPos(start).line;
-    if (line === previousLineNumber) continue;
-    previousLineNumber = line + 1;
+      const line = file.getLineAndColumnAtPos(start).line;
+      if (line === previousLineNumber) continue;
+      previousLineNumber = line + 1;
 
-    file.insertText(
-      start - file.getLengthFromLineStartAtPos(start),
-      ignoreComment,
-    );
+      file.insertText(
+        start - file.getLengthFromLineStartAtPos(start),
+        ignoreComment,
+      );
 
-    carry += ignoreComment.length;
+      carry += ignoreComment.length;
+    }
   }
 }

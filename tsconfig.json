@@ -1,6 +1,7 @@
 {
   "extends": "@tsconfig/node-lts",
   "compilerOptions": {
+    "lib": ["esnext"],
     "declaration": true,
     "outDir": "./lib",
     "rootDir": "./src"

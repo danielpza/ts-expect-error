@@ -37,4 +37,16 @@ const b: number = "foo";
 b = "foo"; b = 'bar';
 `,
   );
+  const file2 = project.getSourceFile("file-2.ts");
+  assert(file2);
+  assert.equal(
+    file2.getText(),
+    // FIXME it's removing the first comment
+    `\
+let a = 10;
+
+// @ts-expect-error TS(2322) FIXME: Type 'string' is not assignable to type 'number'.
+a = "foo";
+`,
+  );
 });
