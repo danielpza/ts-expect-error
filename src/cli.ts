@@ -24,7 +24,7 @@ const options = parseArgs({
   },
 });
 
-const {
+let {
   positionals: entry,
   values: { "remove-current-checks": removeCurrentChecks, help, version },
 } = options;
@@ -45,5 +45,7 @@ if (version) {
   console.log(pkgJson.version);
   process.exit(0);
 }
+
+if (entry.length === 0) entry = ["."];
 
 await run({ entry, removeCurrentChecks });
