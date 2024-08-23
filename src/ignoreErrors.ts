@@ -33,35 +33,39 @@ export function ignoreErrors(diagnostics: Diagnostic<ts.Diagnostic>[]) {
     if (name === undefined) throw new Error("Expected file name");
     return name;
   });
-  for (const [_, fileDiagnostics] of Object.entries(groupByFile)) {
+  for (const [fileName, fileDiagnostics] of Object.entries(groupByFile)) {
     let carry = 0;
     let previousLineNumber: number | undefined;
-    for (const diagnostic of fileDiagnostics) {
-      const file = diagnostic.getSourceFile();
-      let start = diagnostic.getStart();
-      if (file === undefined)
-        throw new Error("Expected diagnostic to have a source file");
-      if (start === undefined)
-        throw new Error("Expected diagnostic to have a start position");
+    try {
+      for (const diagnostic of fileDiagnostics) {
+        const file = diagnostic.getSourceFile();
+        let start = diagnostic.getStart();
+        if (file === undefined)
+          throw new Error("Expected diagnostic to have a source file");
+        if (start === undefined)
+          throw new Error("Expected diagnostic to have a start position");
 
-      let node = file.getChildAtPos(start);
-      if (node === undefined)
-        throw new Error("Expected diagnostic to have a node");
+        let node = file.getChildAtPos(start);
+        if (node === undefined)
+          throw new Error("Expected diagnostic to have a node");
 
-      const ignoreComment = getIgnoreComment(diagnostic);
+        const ignoreComment = getIgnoreComment(diagnostic);
 
-      start += carry;
+        start += carry;
 
-      const line = file.getLineAndColumnAtPos(start).line;
-      if (line === previousLineNumber) continue;
-      previousLineNumber = line + 1;
+        const line = file.getLineAndColumnAtPos(start).line;
+        if (line === previousLineNumber) continue;
+        previousLineNumber = line + 1;
 
-      file.insertText(
-        start - file.getLengthFromLineStartAtPos(start),
-        ignoreComment,
-      );
+        file.insertText(
+          start - file.getLengthFromLineStartAtPos(start),
+          ignoreComment,
+        );
 
-      carry += ignoreComment.length;
+        carry += ignoreComment.length;
+      }
+    } catch (error) {
+      throw new Error(`Error processing ${fileName}`, { cause: error });
     }
   }
 }
