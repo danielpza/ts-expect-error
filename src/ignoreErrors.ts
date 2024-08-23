@@ -29,7 +29,7 @@ function groupBy<T>(
 
 export function ignoreErrors(diagnostics: Diagnostic<ts.Diagnostic>[]) {
   const groupByFile = groupBy(diagnostics, (diagnostic) => {
-    const name = diagnostic.getSourceFile()?.getBaseName();
+    const name = diagnostic.getSourceFile()?.getFilePath();
     if (name === undefined) throw new Error("Expected file name");
     return name;
   });
