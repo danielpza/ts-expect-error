@@ -28,7 +28,10 @@ async function orap<T>(
   });
 }
 
-export async function run({ entry = "." }: { entry?: string } = {}) {
+export async function run({
+  entry = ".",
+  removeCurrentChecks = false,
+}: { entry?: string; removeCurrentChecks?: boolean } = {}) {
   // TODO only glob files if entry is a directory, otherwise use files from the tsconfig.json
   const files = await globby(entry, {
     expandDirectories: {
@@ -37,9 +40,10 @@ export async function run({ entry = "." }: { entry?: string } = {}) {
     gitignore: true,
   });
 
-  await orap(async () => removeIgnoreErrors(files), {
-    text: "Removing previous @ts-expect-error comments",
-  });
+  if (removeCurrentChecks)
+    await orap(async () => removeIgnoreErrors(files), {
+      text: "Removing previous @ts-expect-error comments",
+    });
 
   const project = await orap(
     async () => {
