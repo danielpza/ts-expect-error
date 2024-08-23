@@ -53,9 +53,17 @@ export async function run({ entry = "." }: { entry?: string } = {}) {
     { text: "Loading Project" },
   );
 
-  const diagnostics = await orap(async () => project.getPreEmitDiagnostics(), {
-    text: "Getting Diagnostics",
-  });
+  const diagnostics = await orap(
+    async () =>
+      project
+        .getPreEmitDiagnostics()
+        .filter((diagnostic) =>
+          files.includes(diagnostic.getSourceFile()?.getBaseName() ?? ""),
+        ),
+    {
+      text: "Getting Diagnostics",
+    },
+  );
 
   console.log(`Found ${diagnostics.length} diagnostics`);
 
