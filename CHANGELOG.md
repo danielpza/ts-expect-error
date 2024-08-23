@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.0.6
+
+[compare changes](https://github.com/danielpza/ts-ignore-error/compare/v0.0.5...v0.0.6)
+
+### 🩹 Fixes
+
+- Not matching any files ([ac183dc](https://github.com/danielpza/ts-ignore-error/commit/ac183dc))
+
+### ❤️ Contributors
+
+- Daniel Perez Alvarez <danielpza@protonmail.com>
+
 ## v0.0.5
 
 [compare changes](https://github.com/danielpza/ts-ignore-error/compare/v0.0.4...v0.0.5)
