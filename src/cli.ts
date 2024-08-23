@@ -25,7 +25,7 @@ const options = parseArgs({
 });
 
 const {
-  positionals: [entry],
+  positionals: entry,
   values: { "remove-current-checks": removeCurrentChecks, help, version },
 } = options;
 

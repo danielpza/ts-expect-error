@@ -32,10 +32,10 @@ async function orap<T>(
 }
 
 export async function run({
-  entry = ".",
+  entry = ["."],
   removeCurrentChecks = false,
   cwd = process.cwd(),
-}: { entry?: string; removeCurrentChecks?: boolean; cwd?: string } = {}) {
+}: { entry?: string[]; removeCurrentChecks?: boolean; cwd?: string } = {}) {
   // TODO only glob files if entry is a directory, otherwise use files from the tsconfig.json
   const files = await globby(entry, {
     expandDirectories: {
