@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.0.8
+
+[compare changes](https://github.com/danielpza/ts-ignore-error/compare/v0.0.7...v0.0.8)
+
+### 🩹 Fixes
+
+- Default to current directory ([36e4b9c](https://github.com/danielpza/ts-ignore-error/commit/36e4b9c))
+
+### ❤️ Contributors
+
+- Daniel Perez Alvarez <danielpza@protonmail.com>
+
 ## v0.0.7
 
 [compare changes](https://github.com/danielpza/ts-ignore-error/compare/v0.0.6...v0.0.7)
