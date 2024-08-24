@@ -1,21 +1,20 @@
-import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 import { formatDistanceStrict } from "date-fns";
 import { globby } from "globby";
 import { oraPromise } from "ora";
-import { Project } from "ts-morph";
+import { Project, type SourceFile } from "ts-morph";
 
 import { ignoreErrors } from "./ignoreErrors.js";
 
-async function removeIgnoreErrors(files: string[]) {
+function removeIgnoreErrors(files: SourceFile[]) {
   for (const file of files) {
-    const content = (await readFile(file, "utf-8")).toString();
-    const newContent = content
-      // .replaceAll(/\n\s+\/\/ @ts-expect-error .*\n/g, "\n")
-      .replaceAll(/\/\/ @ts-expect-error.*/g, "")
-      .replaceAll(/\/\* @ts-expect-error.*\*\//g, "");
-    await writeFile(file, newContent);
+    file.replaceWithText(
+      file
+        .getText()
+        .replaceAll(/\/\/ @ts-expect-error.*/g, "")
+        .replaceAll(/\/\* @ts-expect-error.*\*\//g, ""),
+    );
   }
 }
 
@@ -45,22 +44,22 @@ export async function run({
     gitignore: true,
   });
 
-  if (removeCurrentChecks)
-    await orap(async () => removeIgnoreErrors(files), {
-      text: "Removing previous @ts-expect-error comments",
-    });
-
   const project = await orap(
-    async () => {
-      const project = new Project({
-        tsConfigFilePath: path.resolve(cwd, "tsconfig.json"),
-        // skipAddingFilesFromTsConfig: true,
-      });
-      // project.addSourceFilesAtPaths(files);
-      return project;
-    },
+    async () =>
+      new Project({ tsConfigFilePath: path.resolve(cwd, "tsconfig.json") }),
     { text: "Loading Project" },
   );
+
+  if (removeCurrentChecks)
+    await orap(
+      async () =>
+        removeIgnoreErrors(
+          files
+            .map((file) => project.getSourceFile(path.resolve(cwd, file)))
+            .filter((file) => !!file),
+        ),
+      { text: "Removing previous @ts-expect-error comments" },
+    );
 
   const diagnostics = await orap(
     async () =>
