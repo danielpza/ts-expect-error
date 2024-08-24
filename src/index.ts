@@ -12,6 +12,7 @@ function removeIgnoreErrors(files: SourceFile[]) {
     file.replaceWithText(
       file
         .getText()
+        .replaceAll(/\n( |\t)+\/\/ @ts-expect-error.*/g, "")
         .replaceAll(/\/\/ @ts-expect-error.*/g, "")
         .replaceAll(/\/\* @ts-expect-error.*\*\//g, ""),
     );
