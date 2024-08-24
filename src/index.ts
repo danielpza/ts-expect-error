@@ -1,35 +1,11 @@
 import path from "node:path";
 
-import { formatDistanceStrict } from "date-fns";
 import { globby } from "globby";
-import { oraPromise } from "ora";
-import { Project, type SourceFile } from "ts-morph";
+import { Project } from "ts-morph";
 
 import { ignoreErrors } from "./ignoreErrors.js";
-
-function removeIgnoreErrors(files: SourceFile[]) {
-  for (const file of files) {
-    file.replaceWithText(
-      file
-        .getText()
-        .replaceAll(/\n( |\t)+\/\/ @ts-expect-error.*/g, "")
-        .replaceAll(/\/\/ @ts-expect-error.*/g, "")
-        .replaceAll(/\/\* @ts-expect-error.*\*\//g, ""),
-    );
-  }
-}
-
-async function orap<T>(
-  fn: () => Promise<T>,
-  { text }: { text: string },
-): Promise<T> {
-  const startTime = Date.now();
-  return oraPromise(fn, {
-    text,
-    successText: () =>
-      `${text}. Took ${formatDistanceStrict(startTime, Date.now())}`,
-  });
-}
+import { removeIgnoreErrors } from "./removeIgnoreErrors.js";
+import { orap } from "./helpers.js";
 
 export async function run({
   entry = ["."],
