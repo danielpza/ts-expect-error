@@ -42,6 +42,7 @@ export async function run({
     },
     cwd,
     gitignore: true,
+    ignore: ["node_modules/"],
   });
 
   const project = await orap(
