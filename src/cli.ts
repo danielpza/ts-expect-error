@@ -13,6 +13,10 @@ const options = parseArgs({
       type: "boolean",
       short: "r",
     },
+    cwd: {
+      type: "string",
+      short: "w",
+    },
     version: {
       type: "boolean",
       short: "v",
@@ -26,7 +30,7 @@ const options = parseArgs({
 
 let {
   positionals: entry,
-  values: { "remove-current-checks": removeCurrentChecks, help, version },
+  values: { "remove-current-checks": removeCurrentChecks, help, version, cwd },
 } = options;
 
 if (help) {
@@ -37,6 +41,7 @@ options
   -h, --help                   Show this help message.
   -v, --version                Display package version.
   -r, --remove-current-checks  Remove previously placed @ts-expect-error directives.
+  -w, --cwd                    Change the current working directory.
 `);
   process.exit(0);
 }
@@ -48,4 +53,4 @@ if (version) {
 
 if (entry.length === 0) entry = ["."];
 
-await run({ entry, removeCurrentChecks });
+await run({ entry, removeCurrentChecks, cwd });

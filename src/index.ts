@@ -41,6 +41,7 @@ export async function run({
     expandDirectories: {
       extensions: ["ts"],
     },
+    cwd,
     gitignore: true,
   });
 
@@ -52,7 +53,7 @@ export async function run({
   const project = await orap(
     async () => {
       const project = new Project({
-        tsConfigFilePath: "tsconfig.json",
+        tsConfigFilePath: path.resolve(cwd, "tsconfig.json"),
         // skipAddingFilesFromTsConfig: true,
       });
       // project.addSourceFilesAtPaths(files);
