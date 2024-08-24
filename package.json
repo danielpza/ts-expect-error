@@ -1,7 +1,7 @@
 {
   "name": "@danielpza/ts-expect-error",
   "description": "Silence typescript errors by adding a @ts-expect-error directive.",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "license": "MIT",
   "author": "Daniel Perez Alvarez",
   "type": "module",

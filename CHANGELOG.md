@@ -1,5 +1,27 @@
 # Changelog
 
+## v0.0.9
+
+[compare changes](https://github.com/danielpza/ts-ignore-error/compare/v0.0.8...v0.0.9)
+
+### 🚀 Enhancements
+
+- Allow changing cwd ([2e3cb5b](https://github.com/danielpza/ts-ignore-error/commit/2e3cb5b))
+
+### 🩹 Fixes
+
+- Ignore node_modules/ ([9aa4938](https://github.com/danielpza/ts-ignore-error/commit/9aa4938))
+- Remove ts-expect-error option creating extra lines ([49161fc](https://github.com/danielpza/ts-ignore-error/commit/49161fc))
+
+### 💅 Refactors
+
+- Remove ts-expect-error comments using ts-morph ([5abcc4f](https://github.com/danielpza/ts-ignore-error/commit/5abcc4f))
+- Move code around ([4aac03d](https://github.com/danielpza/ts-ignore-error/commit/4aac03d))
+
+### ❤️ Contributors
+
+- Daniel Perez Alvarez <danielpza@protonmail.com>
+
 ## v0.0.8
 
 [compare changes](https://github.com/danielpza/ts-ignore-error/compare/v0.0.7...v0.0.8)
