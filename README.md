@@ -1,6 +1,6 @@
 # ts-expect-error
 
-Inpired by https://github.com/airbnb/ts-migrate which is a very good tool but the reignore feature didn't work in some completed setups with workspaces. This is a smaller version only adding the `@ts-expect-error` directive.
+Inpired by https://github.com/airbnb/ts-migrate which is a very good tool but the reignore feature didn't work in some convoluted setups with workspaces. This is a smaller version only adding the `@ts-expect-error` directive.
 
 Silence typescript errors by adding a @ts-expect-error directive.
 
