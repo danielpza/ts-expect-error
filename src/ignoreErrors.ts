@@ -1,6 +1,11 @@
 import type { Diagnostic, ts } from "ts-morph";
 
-function getIgnoreComment(diagnostic: Diagnostic<ts.Diagnostic>) {
+function getIgnoreComment(
+  diagnostic: Diagnostic<ts.Diagnostic>,
+  opts: {
+    tsx?: boolean;
+  } = {},
+) {
   const tsErrorCode = diagnostic.getCode();
   const prefix = "FIXME";
 
@@ -10,6 +15,11 @@ function getIgnoreComment(diagnostic: Diagnostic<ts.Diagnostic>) {
   }
   errorMessage = errorMessage.split("\n")[0];
 
+  if (opts.tsx) {
+    return `{/* @ts-expect-error TS(${tsErrorCode}) ${prefix}: ${errorMessage} */}\n`;
+  }
+
+  // @ts-ignore
   return `// @ts-expect-error TS(${tsErrorCode}) ${prefix}: ${errorMessage}\n`;
 }
 

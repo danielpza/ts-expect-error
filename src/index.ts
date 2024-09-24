@@ -15,7 +15,7 @@ export async function run({
   // TODO only glob files if entry is a directory, otherwise use files from the tsconfig.json
   const files = await globby(entry, {
     expandDirectories: {
-      extensions: ["ts"],
+      extensions: ["ts", "tsx"],
     },
     cwd,
     gitignore: true,
