@@ -2,6 +2,6 @@
   "name": "sample-project",
   "devDependencies": {
     "@tsconfig/node-lts": "^20.1.3",
-    "typescript": "^5.5.4"
+    "typescript": "^5.7.2"
   }
 }
